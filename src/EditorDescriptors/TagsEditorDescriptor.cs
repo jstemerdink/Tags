@@ -18,6 +18,11 @@ namespace Geta.Tags.EditorDescriptors
         public override void ModifyMetadata(EPiServer.Shell.ObjectEditing.ExtendedMetadata metadata,
             IEnumerable<Attribute> attributes)
         {
+            if (metadata == null)
+            {
+                return;
+            }
+
             base.ModifyMetadata(metadata, attributes);
             var groupKeyAttribute = attributes.FirstOrDefault(a => typeof (TagsGroupKeyAttribute) == a.GetType()) as TagsGroupKeyAttribute;
             var cultureSpecificAttribute = attributes.FirstOrDefault(a => typeof(CultureSpecificAttribute) == a.GetType()) as CultureSpecificAttribute;

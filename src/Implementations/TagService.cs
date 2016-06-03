@@ -77,6 +77,11 @@ namespace Geta.Tags.Implementations
 
         public void Save(Guid contentGuid, IEnumerable<string> names, string groupKey)
         {
+            if (names == null)
+            {
+                return;
+            }
+
             foreach (var name in names)
             {
                 Save(contentGuid, name, groupKey);

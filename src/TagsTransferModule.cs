@@ -34,9 +34,10 @@ namespace Geta.Tags
         private void DataExporter_Exporting(object sender, EventArgs e)
         {
             var exporter = sender as DataExporter;
+
             if (exporter != null && exporter.TransferType == TypeOfTransfer.MirroringExporting)
             {
-                var ddsHandler = (sender as DataExporter).TransferHandlers.Single(p => p.GetType() == typeof(DynamicDataTransferHandler)) as DynamicDataTransferHandler;
+                var ddsHandler = exporter.TransferHandlers.Single(p => p.GetType() == typeof(DynamicDataTransferHandler)) as DynamicDataTransferHandler;
 
                 var store = typeof(Tag).GetStore();
                 var externalId = store.GetIdentity().ExternalId;

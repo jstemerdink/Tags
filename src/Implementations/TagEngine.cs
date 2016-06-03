@@ -210,7 +210,7 @@ namespace Geta.Tags.Implementations
         {
             if (string.IsNullOrEmpty(tagName))
             {
-                return null;
+                return new List<ContentData>();
             }
 
             return this.GetContentsByTag(this._tagService.GetTagByName(tagName));
@@ -220,7 +220,7 @@ namespace Geta.Tags.Implementations
         {
             if (tag == null)
             {
-                return null;
+                return new List<ContentData>();
             }
 
             var contentLinks = new List<Guid>();
@@ -251,7 +251,7 @@ namespace Geta.Tags.Implementations
         {
             if (tag == null || tag.PermanentLinks == null)
             {
-                return null;
+                return new List<ContentData>();
             }
 
             IEnumerable<ContentReference> descendantContentReferences = this._contentLoader.GetDescendents(rootContentReference);
@@ -280,7 +280,7 @@ namespace Geta.Tags.Implementations
         {
             if (string.IsNullOrEmpty(tagNames))
             {
-                return null;
+                return new List<ContentReference>();
             }
 
             var tags = tagNames.Split(',').Select(tagName => this._tagService.GetTagByName(tagName)).ToList();
@@ -290,6 +290,11 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(IEnumerable<Tag> tags)
         {
+            if (tags == null)
+            {
+                return new List<ContentReference>();
+            }
+
             var matches = new Dictionary<ContentReference, int>();
 
             foreach (Tag tag in tags)
@@ -319,6 +324,11 @@ namespace Geta.Tags.Implementations
 
         public IEnumerable<ContentReference> GetContentReferencesByTags(string tagNames, ContentReference rootContentReference)
         {
+            if (string.IsNullOrEmpty(tagNames))
+            {
+                return new List<ContentReference>();
+            }
+
             IList<Tag> tags = new List<Tag>();
 
             foreach (string tagName in tagNames.Split(','))
@@ -333,7 +343,7 @@ namespace Geta.Tags.Implementations
         {
             if (tags == null || ContentReference.IsNullOrEmpty(rootContentReference))
             {
-                return null;
+                return new List<ContentReference>();
             }
 
             IEnumerable<ContentReference> descendantPageReferences = this._contentLoader.GetDescendents(rootContentReference);

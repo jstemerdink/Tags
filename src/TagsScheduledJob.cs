@@ -13,8 +13,9 @@ using Geta.Tags.Helpers;
 
 namespace Geta.Tags
 {
+    using EPiServer.Scheduler;
     [ScheduledPlugIn(DisplayName = "Geta Tags maintenance", DefaultEnabled = true)]
-    public class TagsScheduledJob : JobBase
+    public class TagsScheduledJob : ScheduledJobBase
     {
         private bool _stop;
 
@@ -60,7 +61,7 @@ namespace Geta.Tags
                 }
                 catch (ContentNotFoundException) {}
 
-                if (content == null || (content is PageData && ((PageData)content).IsDeleted))
+                if (content == null || PageDeleted(content))
                 {
                     RemoveFromAllTags(contentGuid, tags);
                     continue;
@@ -70,6 +71,13 @@ namespace Geta.Tags
             }
 
             return "Geta Tags maintenance completed successfully";
+        }
+
+        private static bool PageDeleted(IContent content)
+        {
+            PageData page = content as PageData;
+
+            return page != null && page.IsDeleted;
         }
 
         private void CheckContentProperties(IContent content, IList<Tag> tags)
